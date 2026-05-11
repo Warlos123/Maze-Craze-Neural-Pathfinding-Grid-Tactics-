@@ -1,0 +1,6 @@
+#ifndef CONSTANTSGUI_HPP
+#define CONSTANTSGUI_HPP
+
+
+
+#endif
