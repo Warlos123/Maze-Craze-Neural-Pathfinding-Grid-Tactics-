@@ -4,22 +4,27 @@
 
 enum class GameState{
 
-    MAINSCREEN
+    MAINSCREEN,
+    P1vsAI,
+    P1vsP2
+
 };
 
 
 class GUI{
   public: 
-    sf::RenderWindow window{sf::VideoMode({1200,900}), "Main Screen"};
+    sf::RenderWindow window{sf::VideoMode({Constants::WINDOW_WIDTH,Constants::WINDOW_HEIGHT}), "Main Screen"};
     GameState estado = GameState::MAINSCREEN;
-    sf::Font font{"./Resource/Groovy Volcano Demo.ttf"};
+    sf::Font font{"./Resource/CinzelDecorative-Regular.ttf"};
     sf::Texture backGround{"./Resource/696.jpg"};
     sf::Sprite bgSprite{backGround};
 
-    Button playIA{font ,"Player vs IA", {200.f, 60.f}, {250.f, 600.f}, Constants::BUTTON_NOMRAL, Constants::BUTTON_HOVER};
-    Button play2P{font ,"Play vs Player", {200.f, 60.f}, {750.f, 600.f}, Constants::BUTTON_NOMRAL, Constants::BUTTON_HOVER};
+    Button playIA{font ,"Play vs AI", {250.f, 60.f}, {250.f, 600.f}, Constants::BUTTON_NOMRAL, Constants::BUTTON_HOVER};
+    Button play2P{font ,"Multiplayer", {250.f, 60.f}, {750.f, 600.f}, Constants::BUTTON_NOMRAL, Constants::BUTTON_HOVER};
 
     Text title{font, "Maze Craze", 60, {450.f, 80.f}, sf::Color::White};
+
+    GUI(){title.centerOn({Constants::WINDOW_WIDTH / 2.f, 150.f});}
 
     int run(){
         while(window.isOpen()){

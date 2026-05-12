@@ -17,12 +17,15 @@ class Button{
                 shape.setPosition(pos);
                 shape.setFillColor(normal);
                 text.setFillColor(sf::Color::White);
+                text.setOutlineThickness(1.f);
 
                 sf::FloatRect tb = text.getLocalBounds();
                 text.setPosition({
                     pos.x + (size.x - tb.size.x) / 2.f -tb.position.x,
                     pos.y + (size.y - tb.size.y) / 2.f -tb.position.y
                  });
+
+                
             }
         
             void update(sf::Vector2i mousePos){

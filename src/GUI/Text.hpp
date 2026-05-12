@@ -11,6 +11,7 @@ class Text{
              : text (font, content, size){
                 text.setFillColor(color);
                 text.setPosition(pos);
+                text.setOutlineThickness(2.f);
              }
 
         void centerX(unsigned int windowWidth, float y){
@@ -23,5 +24,13 @@ class Text{
         void draw(sf::RenderWindow& window){
             window.draw(text);
         }
-};
 
+        void centerOn(sf::Vector2f point){      //Center text on main screen
+            sf::FloatRect txt = text.getLocalBounds();
+            text.setOrigin({
+                txt.position.x + txt.size.x / 2.f,
+                txt.position.y + txt.size.y / 2.f
+            });
+            text.setPosition(point);
+        }
+};
