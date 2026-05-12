@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "ConstantsGUI.hpp"
 
 class Button{
     public: 
@@ -16,7 +17,8 @@ class Button{
                 
                 shape.setPosition(pos);
                 shape.setFillColor(normal);
-                text.setFillColor(sf::Color::White);
+                shape.setOutlineThickness(2.f);
+                text.setFillColor(Constants::TEXTCOLOR);
                 text.setOutlineThickness(1.f);
 
                 sf::FloatRect tb = text.getLocalBounds();
@@ -39,6 +41,10 @@ class Button{
             void draw(sf::RenderWindow& window){
                 window.draw(shape);
                 window.draw(text);
+            }
+
+            bool isClicked(sf::Vector2f clickPos){
+                return shape.getGlobalBounds().contains(clickPos);
             }
 };
 
