@@ -12,8 +12,8 @@ class GUI{
   public: 
     sf::RenderWindow window{sf::VideoMode({1200,900}), "Main Screen"};
     GameState estado = GameState::MAINSCREEN;
-    sf::Font font{"./Groovy Volcano Demo.ttf"};
-    sf::Texture backGround{"./696.jpg"};
+    sf::Font font{"./Resource/Groovy Volcano Demo.ttf"};
+    sf::Texture backGround{"./Resource/696.jpg"};
     sf::Sprite bgSprite{backGround};
 
     Button playIA{font ,"Player vs IA", {200.f, 60.f}, {250.f, 600.f}, Constants::BUTTON_NOMRAL, Constants::BUTTON_HOVER};
