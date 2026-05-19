@@ -30,7 +30,7 @@ class Button{
                 
             }
         
-            void update(sf::Vector2i mousePos){
+            void update(sf::Vector2f mousePos){
                 if(shape.getGlobalBounds().contains(sf::Vector2f(mousePos))){
                     shape.setFillColor(hoverColor);
                 }else{
