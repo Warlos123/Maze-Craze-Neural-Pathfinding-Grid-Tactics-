@@ -52,9 +52,11 @@ class GUI{
             sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
             if(state == GameState::MAINSCREEN){
+                playIA.setVisable(true);
                 playIA.update(mousePos);
                 playIA.draw(window);
 
+                play2P.setVisable(true);
                 play2P.update(mousePos);
                 play2P.draw(window);
 
@@ -62,10 +64,14 @@ class GUI{
             }
 
             if(state == GameState::P1vsAI){
+                play2P.setVisable(false);
+                playIA.setVisable(false);
                 state = runPlvsAI(window, swSprite, mousePos, clicked, clickPos);
             }
 
             if(state == GameState::P1vsP2){
+                play2P.setVisable(false);
+                playIA.setVisable(false);
                 state = runPvP(window,swSprite,mousePos,clicked,clickPos);
             }
             

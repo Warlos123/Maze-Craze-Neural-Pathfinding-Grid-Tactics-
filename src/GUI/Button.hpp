@@ -10,6 +10,7 @@ class Button{
         sf::Text text;
         sf::Color normalColor;
         sf::Color hoverColor;
+        bool isVisable = false;
 
         Button(const sf::Font& font ,const std::string& label,
             sf::Vector2f size, sf::Vector2f pos, sf::Color normal, sf::Color hover) : 
@@ -39,12 +40,23 @@ class Button{
             }
 
             void draw(sf::RenderWindow& window){
+                if(isVisable){
                 window.draw(shape);
                 window.draw(text);
+                }                
             }
 
             bool isClicked(sf::Vector2f clickPos){
+                if(!isVisable){
+                    return false;
+                }
                 return shape.getGlobalBounds().contains(clickPos);
             }
+
+            void setVisable(bool visable){
+                isVisable = visable;
+            }
+
+            
 };
 
