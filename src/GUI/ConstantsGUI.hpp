@@ -8,11 +8,14 @@ namespace Constants{
     inline const sf::Color BUTTON_NOMRAL{184, 135, 70};
     inline const sf::Color BUTTON_HOVER{212, 161, 93}; 
 
+    inline const sf::Color TEXTBOXNORMAL{209, 201, 201};
+    inline const sf::Color TEXTBOXHOVER{176, 169, 169};
+
     inline const sf::Color TEXTCOLOR{246, 231, 193};
 
-    sf::Font font{"./Resource/CinzelDecorative-Regular.ttf"};
-    sf::Texture backGround{"./Resource/MainScreen.jpg"};
-    sf::Texture subWindow{"./Resource/blurredMainScreen.jpg"};
+    inline sf::Font font{"./Resource/CinzelDecorative-Regular.ttf"};
+    inline sf::Texture backGround{"./Resource/MainScreen.jpg"};
+    inline sf::Texture subWindow{"./Resource/blurredMainScreen.jpg"};
     
 }
     

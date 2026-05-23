@@ -1,8 +1,8 @@
 #include "Button.hpp"
 #include "Text.hpp"
 #include "ConstantsGUI.hpp"
-#include "PlayerVSIA.cpp"
-#include "Multiplayer.cpp"
+#include "PlayerVSIA.hpp"
+#include "Multiplayer.hpp"
 #include "GameState.hpp"
 
 
@@ -28,7 +28,10 @@ class GUI{
         while(window.isOpen()){
             bool clicked = false;
             sf::Vector2f clickPos;
-            while (const std::optional event = window.pollEvent()){
+            std::optional<sf::Event> lastEvent;
+
+            while (const  std::optional event = window.pollEvent()){
+                lastEvent = event;
                 if(event->is<sf::Event::Closed>()) window.close();
                 
                 if(const auto* mouseClick = event->getIf<sf::Event::MouseButtonPressed>()){
@@ -52,11 +55,11 @@ class GUI{
             sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
             if(state == GameState::MAINSCREEN){
-                playIA.setVisable(true);
+                playIA.setVisible(true);
                 playIA.update(mousePos);
                 playIA.draw(window);
 
-                play2P.setVisable(true);
+                play2P.setVisible(true);
                 play2P.update(mousePos);
                 play2P.draw(window);
 
@@ -64,15 +67,17 @@ class GUI{
             }
 
             if(state == GameState::P1vsAI){
-                play2P.setVisable(false);
-                playIA.setVisable(false);
-                state = runPlvsAI(window, swSprite, mousePos, clicked, clickPos);
+                play2P.setVisible(false);
+                playIA.setVisible(false);
+                const sf::Event* evPtr = lastEvent.has_value() ? &(*lastEvent) : nullptr;
+                state = runPlvsAI(window, swSprite, mousePos, clicked, clickPos, evPtr);
             }
 
             if(state == GameState::P1vsP2){
-                play2P.setVisable(false);
-                playIA.setVisable(false);
-                state = runPvP(window,swSprite,mousePos,clicked,clickPos);
+                play2P.setVisible(false);
+                playIA.setVisible(false);
+                const sf::Event* evPtr = lastEvent.has_value() ? &(*lastEvent) : nullptr;
+                state = runPvP(window,swSprite,mousePos,clicked,clickPos, evPtr);
             }
             
             
@@ -81,7 +86,6 @@ class GUI{
         return 0;
     }
     
-
 };
 
 int main(){
