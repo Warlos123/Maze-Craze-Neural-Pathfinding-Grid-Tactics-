@@ -21,7 +21,7 @@ void MazeGenerator::addRandomEdge(Graph& graph){
 
 
 
-//SPANNING TREE
+
 void MazeGenerator::DFS(Graph& graph){
     int total = graph.getRows() * graph.getCols();
 
@@ -66,6 +66,7 @@ void MazeGenerator::DFS(Graph& graph){
 }
 
 
+
 void MazeGenerator::BFS(Graph& graph){
     int total = graph.getRows() * graph.getCols();
 
@@ -85,7 +86,7 @@ void MazeGenerator::BFS(Graph& graph){
         queue.pop();
 
         std::vector<int> neighbors = graph.getNeighbors(current);
-        std::uniform_int_distribution<int> distCurrent(0, neighbors.size() - 1);
+        std::uniform_int_distribution<int> distCurrent(0, neighbors.size() - 1); //New distribution for random num, from 0 to the current unvisited # of nodes.
         int randI = distCurrent(random);
         std::swap(neighbors[0], neighbors[randI]);
 

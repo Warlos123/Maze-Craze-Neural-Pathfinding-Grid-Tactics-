@@ -2,7 +2,7 @@
 #include <vector>
 #include "../Cell/Cell.hpp"
 
-class Graph {
+class Graph{
 private:
     int rows_;
     int cols_;
@@ -22,5 +22,5 @@ public:
 
     int getCols();
 
-    
+    const std::vector<int>& getAdj(int nodeIndex);
 };
