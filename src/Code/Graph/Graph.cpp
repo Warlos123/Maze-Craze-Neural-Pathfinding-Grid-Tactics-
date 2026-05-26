@@ -64,3 +64,7 @@ int Graph::getRows(){
 int Graph::getCols(){
     return cols_;
 }
+
+const std::vector<int>& Graph::getAdj(int nodeIndex){
+    return adj[nodeIndex];
+}
