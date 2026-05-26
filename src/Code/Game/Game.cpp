@@ -87,6 +87,7 @@ bool Game::move(int targetNode){
     else if(cell.powerUp == PowerUpType::CONTROL_ENEMY){
         controlEnemy_ = true;
         cell.powerUp = PowerUpType::NONE;
+        return true;
     }
 
     /*ADD Cell WITH SPECIAL POWER
