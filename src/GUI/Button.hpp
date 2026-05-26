@@ -4,13 +4,15 @@
 #include "ConstantsGUI.hpp"
 
 class Button{
-    public: 
+    private: 
         
         sf::RectangleShape shape;
         sf::Text text;
         sf::Color normalColor;
         sf::Color hoverColor;
+        bool isVisible = false;
 
+    public: 
         Button(const sf::Font& font ,const std::string& label,
             sf::Vector2f size, sf::Vector2f pos, sf::Color normal, sf::Color hover) : 
             shape(size), text(font, label, 24), normalColor(normal), hoverColor(hover){
@@ -30,7 +32,7 @@ class Button{
                 
             }
         
-            void update(sf::Vector2i mousePos){
+            void update(sf::Vector2f mousePos){
                 if(shape.getGlobalBounds().contains(sf::Vector2f(mousePos))){
                     shape.setFillColor(hoverColor);
                 }else{
@@ -39,12 +41,23 @@ class Button{
             }
 
             void draw(sf::RenderWindow& window){
+                if(isVisible){
                 window.draw(shape);
                 window.draw(text);
+                }                
             }
 
             bool isClicked(sf::Vector2f clickPos){
+                if(!isVisible){
+                    return false;
+                }
                 return shape.getGlobalBounds().contains(clickPos);
             }
+
+            void setVisible(bool visible){
+                isVisible = visible;
+            }
+
+            
 };
 

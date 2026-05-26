@@ -3,9 +3,10 @@
 #include <string>
 
 class Text{
-    public: 
+    private: 
         sf::Text text;
         
+    public:
         Text(const sf::Font& font, const std::string& content,
              unsigned int size, sf::Vector2f pos, sf::Color color)
              : text (font, content, size){
