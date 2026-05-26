@@ -24,10 +24,16 @@ private:
     Player p2_;
     PlayerTurn currentPlayer_;
     int treasureNode_;
+    bool doublePlay_;
+    bool controlEnemy_;
 
 public:
     Game();
     void init(Algorithm a);
 
     bool move(int targetNode);
+
+    bool useJumpWall(int targetNode);
+
+    bool checkVictory(Player* player);
 };
