@@ -6,7 +6,7 @@ Graph::Graph(int rows_, int cols_){
     this->cells.resize(rows_*cols_);
     this->adj.resize(rows_*cols_);
 
-    for(int i = 0; i < rows_; i++){
+    for(int i = 0; i < rows_ * cols_; i++){
         this->cells[i].row = i / cols_; 
         this->cells[i].col = i % cols_;
     }
@@ -67,4 +67,8 @@ int Graph::getCols(){
 
 const std::vector<int>& Graph::getAdj(int nodeIndex){
     return adj[nodeIndex];
+}
+
+Cell& Graph::getCell(int nodeIndex){
+    return cells[nodeIndex];
 }
