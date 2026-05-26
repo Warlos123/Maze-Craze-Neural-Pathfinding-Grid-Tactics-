@@ -13,5 +13,6 @@ enum class PowerUpType{
     JUMP_WALL, 
     DOUBLE_PLAY,
     CONTROL_ENEMY,
+    CHANGE_LOCATION
 };
 
