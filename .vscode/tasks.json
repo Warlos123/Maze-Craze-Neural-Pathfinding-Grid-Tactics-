@@ -10,6 +10,8 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "src/GUI/window.cpp",
+                "src/GUI/PlayerVSIA.cpp",
+                "src/GUI/Multiplayer.cpp",
                 "src/Code/Graph/Graph.cpp",
                 "src/Code/MazeGenerator/MazeGenerator.cpp",
                 "src/Code/Path/Path.cpp",
