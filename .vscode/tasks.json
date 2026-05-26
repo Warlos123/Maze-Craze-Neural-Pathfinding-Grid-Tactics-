@@ -2,25 +2,29 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "type": "cppbuild",
-            "label": "C/C++: g++ build active file",
-            "command": "/usr/bin/g++",
+            "type": "shell",
+            "label": "Build MazeCraze",
+            "command": "g++",
             "args": [
+                "-std=c++17",
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}",
+                "src/GUI/window.cpp",
+                "src/Code/Graph/Graph.cpp",
+                "src/Code/MazeGenerator/MazeGenerator.cpp",
+                "src/Code/Path/Path.cpp",
+                "src/Code/Player/Player.cpp",
+                "src/Code/Game/Game.cpp",
                 "-lsfml-graphics",
                 "-lsfml-window",
-                "-lsfml-system"
+                "-lsfml-system",
+                "-o",
+                "MazeCraze"
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
+            "problemMatcher": ["$gcc"],
             "group": {
                 "kind": "build",
                 "isDefault": true

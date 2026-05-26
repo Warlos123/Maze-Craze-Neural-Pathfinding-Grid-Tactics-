@@ -90,12 +90,14 @@ bool Game::move(int targetNode){
         return true;
     }
 
-    /*ADD Cell WITH SPECIAL POWER
-    else if(cell.powerUp == PowerUpType::XXX){
-       
+    //Cell with CHANGE_LOCATION, uses inmediatly, changes location between the two players
+    else if(cell.powerUp == PowerUpType::CHANGE_LOCATION){
+        int temp = p1_.getNodeIndex();
+        p1_.setNodeIndex(p2_.getNodeIndex());
+        p2_.setNodeIndex(temp);
         cell.powerUp = PowerUpType::NONE;
     }
-    */
+
 
     //Verifies if player has DOUBLE_PLAY. If he does, the current player doesn't change.
     if(!doublePlay_){
