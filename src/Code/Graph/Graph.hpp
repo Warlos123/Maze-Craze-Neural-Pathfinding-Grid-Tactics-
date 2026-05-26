@@ -23,4 +23,6 @@ public:
     int getCols();
 
     const std::vector<int>& getAdj(int nodeIndex);
+
+    Cell& getCell(int nodeIndex);
 };
