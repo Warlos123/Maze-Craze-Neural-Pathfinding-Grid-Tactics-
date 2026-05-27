@@ -1,6 +1,9 @@
 #include "Game.hpp"
 
-Game::Game() : graph_(ROWS, COLS), path_(graph_), p1_(-1), p2_(-1), treasureNode_(-1), currentPlayer_(PlayerTurn::P1), doublePlay_(false), controlEnemy_(false){}
+Game::Game() : graph_(ROWS, COLS), path_(graph_), p1_(-1), p2_(-1), treasureNode_(-1), currentPlayer_(PlayerTurn::P1), doublePlay_(false), controlEnemy_(false){
+    std::random_device rd;
+    random_ = std::mt19937(rd());
+}
 
 void Game::init(Algorithm a){
     if(a == Algorithm::DFS){
@@ -11,12 +14,10 @@ void Game::init(Algorithm a){
         generator_.BFS(graph_);
     }
 
-    std::random_device rd;
-    std::mt19937 random(rd());
     std::uniform_int_distribution<int> dist(0, ROWS - 1);
 
-    int p1Row = dist(random);
-    int p2Row = dist(random);
+    int p1Row = dist(random_);
+    int p2Row = dist(random_);
 
     p1_.setNodeIndex(p1Row * COLS); //First column
     p2_.setNodeIndex(p2Row * COLS + (COLS - 1)); //Last column
@@ -24,6 +25,14 @@ void Game::init(Algorithm a){
     std::vector<int> pathVector = path_.getShortestPath(p1_.getNodeIndex(), p2_.getNodeIndex());
 
     treasureNode_ = pathVector[pathVector.size() / 2];
+
+    //Reserve player and treasure cells so no power-up or portal spawns on them
+    std::unordered_set<int> reserved;
+    reserved.insert(p1_.getNodeIndex());
+    reserved.insert(p2_.getNodeIndex());
+    reserved.insert(treasureNode_);
+
+    populate(reserved);
 }
 
 
@@ -161,4 +170,61 @@ bool Game::useJumpWall(int targetNode){
 
 bool Game::checkVictory(Player* player){
     return player->getNodeIndex() == treasureNode_;
+}
+
+
+void Game::populate(const std::unordered_set<int>& reserved){
+    int total = ROWS * COLS;
+
+    //Power-ups: each non-reserved cell has POWER_SPAWN_RATE% chance
+    //of receiving a power-up. Type chosen uniformly at random from the 4 types.
+    std::uniform_int_distribution<int> rateDist(1, 100);
+    std::uniform_int_distribution<int> typeDist(1, POWER_UP_TYPE_COUNT); //1..4 maps to JUMP_WALL..CHANGE_LOCATION
+
+    for(int i = 0; i < total; i++){
+        if(reserved.count(i)) 
+            continue;
+
+        if(rateDist(random_) <= POWER_SPAWN_RATE){
+            int t = typeDist(random_);
+            graph_.getCell(i).powerUp = static_cast<PowerUpType>(t); //1=JUMP_WALL,2=DOUBLE_PLAY,3=CONTROL_ENEMY,4=CHANGE_LOCATION
+        }
+    }
+
+    //Portals: PORTAL_PAIRS fixed pairs. Each pair uses two random free cells.
+    //A cell is "free" if it's not reserved, not already a portal, and has no power-up
+    //(to keep the spawn logic clean; a single cell holds one thing).
+    std::vector<int> freeCells;
+    freeCells.reserve(total);
+    for(int i = 0; i < total; i++){
+        if(reserved.count(i)) continue;
+        if(graph_.getCell(i).isPortal) continue;
+        if(graph_.getCell(i).powerUp != PowerUpType::NONE) continue;
+        freeCells.push_back(i);
+    }
+
+    for(int p = 0; p < PORTAL_PAIRS; p++){
+        if(freeCells.size() < 2) 
+            break; //Not enough free cells, give up silently
+
+        std::uniform_int_distribution<int> pick(0, freeCells.size() - 1);
+
+        int aIdx = pick(random_);
+        int a = freeCells[aIdx];
+        std::swap(freeCells[aIdx], freeCells.back());
+        freeCells.pop_back();
+
+        std::uniform_int_distribution<int> pick2(0, freeCells.size() - 1);
+        int bIdx = pick2(random_);
+        int b = freeCells[bIdx];
+        std::swap(freeCells[bIdx], freeCells.back());
+        freeCells.pop_back();
+
+        Cell& ca = graph_.getCell(a);
+        Cell& cb = graph_.getCell(b);
+        ca.isPortal = true;
+        ca.portalTarget = b;
+        cb.isPortal = true;
+        cb.portalTarget = a;
+    }
 }

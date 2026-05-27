@@ -9,9 +9,15 @@
                 "-std=c++17",
 
                 "window.cpp",
-
                 "PlayerVSIA/PlayerVSIA.cpp",
                 "Multiplayer/Multiplayer.cpp",
+                "GameScreen/GameScreen.cpp",
+
+                "../Code/Game/Game.cpp",
+                "../Code/Graph/Graph.cpp",
+                "../Code/MazeGenerator/MazeGenerator.cpp",
+                "../Code/Path/Path.cpp",
+                "../Code/Player/Player.cpp",
 
                 "-I.",
 
