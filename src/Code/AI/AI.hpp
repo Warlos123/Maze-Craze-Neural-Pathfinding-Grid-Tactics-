@@ -1,4 +1,3 @@
-// AI.hpp
 #pragma once
 #include <random>
 #include "../Game/Game.hpp"

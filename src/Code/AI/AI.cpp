@@ -1,4 +1,3 @@
-// AI.cpp
 #include "AI.hpp"
 
 AI::AI() {
