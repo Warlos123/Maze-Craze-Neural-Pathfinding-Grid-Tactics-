@@ -24,6 +24,53 @@ void Game::init(Algorithm a){
     std::vector<int> pathVector = path_.getShortestPath(p1_.getNodeIndex(), p2_.getNodeIndex());
 
     treasureNode_ = pathVector[pathVector.size() / 2];
+
+
+    int portalPair = -1;
+    std::vector<std::pair<int,int>> portals;
+    std::uniform_int_distribution<int> spawnChance(0,100);
+    for(int i = 0; i < ROWS*COLS; i++){
+        if(i == p1_.getNodeIndex() || i == p2_.getNodeIndex() || i == treasureNode_)
+            continue;
+
+        //SPAWN POWERS
+        if(spawnChance(random) <= POWER_SPAWN_RATE){
+            std::uniform_int_distribution<int> powerUpChance(1,4);
+            int powerType = powerUpChance(random);
+
+            if(powerType == 1) 
+                graph_.getCell(i).powerUp == PowerUpType::JUMP_WALL;
+
+            else if(powerType == 2)
+                graph_.getCell(i).powerUp == PowerUpType::DOUBLE_PLAY;
+            
+            else if(powerType == 3)
+                graph_.getCell(i).powerUp == PowerUpType::CONTROL_ENEMY;
+
+            else if(powerType == 4)
+                graph_.getCell(i).powerUp == PowerUpType::CHANGE_LOCATION;
+        }
+
+
+        //SPAWN PORTALS
+        else if(spawnChance(random) <= PORTAL_SPAWN_RATE){
+            if(portalPair == -1){ //Pair.first
+                portalPair = i;
+            }
+            else{ //Pair.second
+                portals.push_back({portalPair, i});
+                portalPair = -1;
+            }
+        }
+    }
+
+    //Connects portals
+    for(auto& pair : portals){
+        graph_.getCell(pair.first).isPortal = true;
+        graph_.getCell(pair.first).portalTarget = pair.second;
+        graph_.getCell(pair.second).isPortal = true;
+        graph_.getCell(pair.second).portalTarget = pair.first;
+    }
 }
 
 
