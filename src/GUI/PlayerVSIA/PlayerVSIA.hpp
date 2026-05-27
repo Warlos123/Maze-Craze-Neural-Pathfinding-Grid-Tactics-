@@ -1,5 +1,5 @@
-#include "ConstantsGUI.hpp"
-#include "GameState.hpp"
+#include "../ConstantsGUI.hpp"
+#include "../GameState.hpp"
 #pragma once 
 
 enum class GameState;

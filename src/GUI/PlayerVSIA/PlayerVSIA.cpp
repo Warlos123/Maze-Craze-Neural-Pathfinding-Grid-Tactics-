@@ -1,8 +1,8 @@
 #include "PlayerVSIA.hpp"
-#include "Button.hpp"
-#include "Text.hpp"
-#include "Textbox.hpp"
-#include "ConstantsGUI.hpp"
+#include "../Factories/Button.hpp"
+#include "../Factories/Text.hpp"
+#include "../Factories/Textbox.hpp"
+#include "../ConstantsGUI.hpp"
 
 
 GameState runPlvsAI(sf::RenderWindow& window, sf::Sprite& swSprite, 

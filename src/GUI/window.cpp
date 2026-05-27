@@ -1,8 +1,8 @@
-#include "Button.hpp"
-#include "Text.hpp"
+#include "Factories/Button.hpp"
+#include "Factories/Text.hpp"
 #include "ConstantsGUI.hpp"
-#include "PlayerVSIA.hpp"
-#include "Multiplayer.hpp"
+#include "PlayerVSIA/PlayerVSIA.hpp"
+#include "Multiplayer/Multiplayer.hpp"
 #include "GameState.hpp"
 
 

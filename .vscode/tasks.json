@@ -2,35 +2,39 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "type": "shell",
             "label": "Build MazeCraze",
+            "type": "shell",
             "command": "g++",
             "args": [
                 "-std=c++17",
-                "-fdiagnostics-color=always",
-                "-g",
-                "src/GUI/window.cpp",
-                "src/GUI/PlayerVSIA.cpp",
-                "src/GUI/Multiplayer.cpp",
-                "src/Code/Graph/Graph.cpp",
-                "src/Code/MazeGenerator/MazeGenerator.cpp",
-                "src/Code/Path/Path.cpp",
-                "src/Code/Player/Player.cpp",
-                "src/Code/Game/Game.cpp",
+
+                "window.cpp",
+
+                "PlayerVSIA/PlayerVSIA.cpp",
+                "Multiplayer/Multiplayer.cpp",
+
+                "-I.",
+
+                "-o",
+                "app",
+
                 "-lsfml-graphics",
                 "-lsfml-window",
-                "-lsfml-system",
-                "-o",
-                "MazeCraze"
+                "-lsfml-system"
             ],
+
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}/src/GUI"
             },
-            "problemMatcher": ["$gcc"],
+
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+
+            "problemMatcher": [
+                "$gcc"
+            ]
         }
     ]
 }

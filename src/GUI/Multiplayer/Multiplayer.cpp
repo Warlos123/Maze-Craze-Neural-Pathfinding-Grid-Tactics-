@@ -1,8 +1,8 @@
 #include "Multiplayer.hpp"
-#include "Button.hpp"
-#include "Text.hpp"
-#include "Textbox.hpp"
-#include "ConstantsGUI.hpp"
+#include "../Factories/Button.hpp"
+#include "../Factories/Text.hpp"
+#include "../Factories/Textbox.hpp"
+
 
 GameState runPvP(sf::RenderWindow& window, sf::Sprite& swSprite, 
     sf::Vector2f mousePos, bool mouseClicked, sf::Vector2f clickPos, const sf::Event* event){
