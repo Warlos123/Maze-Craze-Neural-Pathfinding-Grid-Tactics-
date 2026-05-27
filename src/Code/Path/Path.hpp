@@ -9,5 +9,5 @@ private:
 
 public:
     Path(Graph& graph);
-    std::vector<int> getShortestPath(int p1, int p2);
+    std::vector<int> getShortestPath(int src, int dest);
 };

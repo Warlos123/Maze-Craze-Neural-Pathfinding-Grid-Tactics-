@@ -207,5 +207,27 @@ bool Game::useJumpWall(int targetNode){
 
 
 bool Game::checkVictory(Player* player){
+
     return player->getNodeIndex() == treasureNode_;
+
+}
+
+PlayerTurn Game::getCurrentPlayer(){ 
+    return currentPlayer_; 
+} 
+
+int Game::getP1Node(){ 
+    return p1_.getNodeIndex();
+} 
+
+int Game::getP2Node(){ 
+    return p2_.getNodeIndex();
+} 
+
+bool Game::p2HasJumpWall(){ 
+    return !p2_.getPowerUps().empty();
+} 
+
+Graph& Game::getGraph(){ 
+    return graph_;
 }

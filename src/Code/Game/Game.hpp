@@ -36,4 +36,17 @@ public:
     bool useJumpWall(int targetNode);
 
     bool checkVictory(Player* player);
+
+    int getTreasureNode_();
+
+    PlayerTurn getCurrentPlayer();
+
+    int getP1Node();
+
+    int getP2Node();
+
+    bool p2HasJumpWall();
+
+    Graph& getGraph();
+
 };
