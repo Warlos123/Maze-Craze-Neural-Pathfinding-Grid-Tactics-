@@ -4,5 +4,5 @@
 
 enum class GameState;
 
-GameState runPlvsAI(sf::RenderWindow& window, sf::Sprite& swSprite, 
+GameState runP1vsAI(sf::RenderWindow& window, sf::Sprite& swSprite, 
     sf::Vector2f mousePos, bool mouseClicked, sf::Vector2f clickPos, const sf::Event* event);

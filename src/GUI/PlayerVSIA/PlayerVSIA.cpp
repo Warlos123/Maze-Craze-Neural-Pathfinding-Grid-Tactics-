@@ -5,7 +5,7 @@
 #include "../ConstantsGUI.hpp"
 
 
-GameState runPlvsAI(sf::RenderWindow& window, sf::Sprite& swSprite, 
+GameState runP1vsAI(sf::RenderWindow& window, sf::Sprite& swSprite, 
     sf::Vector2f mousePos, bool mouseClicked, sf::Vector2f clickPos, const sf::Event* event){
 
         static Button goBack{Constants::font, "Main Screen", {250.f, 60.f}, {5,5}, Constants::BUTTON_NOMRAL, Constants::BUTTON_HOVER};
