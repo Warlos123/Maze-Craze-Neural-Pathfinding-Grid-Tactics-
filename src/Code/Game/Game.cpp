@@ -169,6 +169,7 @@ bool Game::useJumpWall(int targetNode){
 
 
 bool Game::checkVictory(Player* player){
+
     return player->getNodeIndex() == treasureNode_;
 }
 
