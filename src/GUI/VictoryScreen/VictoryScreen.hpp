@@ -5,6 +5,6 @@
 enum class GameState;
 struct GameContext;
 
-GameState runPlvsAI(sf::RenderWindow& window, sf::Sprite& swSprite,
+GameState runVictory(sf::RenderWindow& window, sf::Sprite& swSprite,
     sf::Vector2f mousePos, bool mouseClicked, sf::Vector2f clickPos,
     const sf::Event* event, GameContext& ctx);

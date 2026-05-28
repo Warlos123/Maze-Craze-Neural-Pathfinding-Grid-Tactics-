@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
-#include "ConstantsGUI.hpp"
+#include "../ConstantsGUI.hpp"
 
 class Button{
     private: 

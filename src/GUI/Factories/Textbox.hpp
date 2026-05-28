@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #include <string> 
-#include "ConstantsGUI.hpp"
+#include "../ConstantsGUI.hpp"
 
 class Textbox{
 

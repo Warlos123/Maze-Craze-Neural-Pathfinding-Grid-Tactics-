@@ -1,4 +1,6 @@
 #pragma once
+#include <random>
+#include <unordered_set>
 #include "../Graph/Graph.hpp"
 #include "../MazeGenerator/MazeGenerator.hpp"
 #include "../Path/Path.hpp"
@@ -26,6 +28,10 @@ private:
     int treasureNode_;
     bool doublePlay_;
     bool controlEnemy_;
+    std::mt19937 random_;
+
+    //Spawns power-ups and portals on the map, skipping reserved cells
+    void populate(const std::unordered_set<int>& reserved);
 
 public:
     Game();
@@ -37,16 +43,10 @@ public:
 
     bool checkVictory(Player* player);
 
-    int getTreasureNode_();
-
-    PlayerTurn getCurrentPlayer();
-
-    int getP1Node();
-
-    int getP2Node();
-
-    bool p2HasJumpWall();
-
-    Graph& getGraph();
-
+    //Read-only accessors for the UI
+    PlayerTurn getCurrentPlayer() const { return currentPlayer_; }
+    Player& getP1() { return p1_; }
+    Player& getP2() { return p2_; }
+    Graph& getGraph() { return graph_; }
+    int getTreasureNode() const { return treasureNode_; }
 };

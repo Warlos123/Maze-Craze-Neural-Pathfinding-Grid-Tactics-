@@ -13,9 +13,18 @@ namespace Constants{
 
     inline const sf::Color TEXTCOLOR{246, 231, 193};
 
-    inline sf::Font font{"./src/GUI/Resource/CinzelDecorative-Regular.ttf"};
-    inline sf::Texture backGround{"./src/GUI/Resource/MainScreen.jpg"};
-    inline sf::Texture subWindow{"./src/GUI/Resource/blurredMainScreen.jpg"};
+    inline sf::Font font{"./Resource/CinzelDecorative-Regular.ttf"};
+    inline sf::Texture backGround{"./Resource/MainScreen.jpg"};
+    inline sf::Texture subWindow{"./Resource/blurredMainScreen.jpg"};
+    
+    inline sf::Texture soldierTex{"./Resource/Soldier.png"};
+    inline sf::Texture minotaurTex{"./Resource/Minotaur.png"};
+    inline sf::Texture chestTex{"./Resource/Chest.png"};
+    inline sf::Texture portalTex{"./Resource/Portal.png"};
+    inline sf::Texture controllerTex{"./Resource/Controller.png"};
+    inline sf::Texture bootsTex{"./Resource/Boots.png"};
+    inline sf::Texture numberTwoTex{"./Resource/NumberTwo.png"};
+    inline sf::Texture repeatTex{"./Resource/Repeat.png"};
     
 }
     
