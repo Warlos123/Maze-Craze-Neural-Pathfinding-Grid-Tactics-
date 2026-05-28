@@ -49,7 +49,7 @@ bool Game::move(int targetNode){
             currentP = &p1_;
         }
 
-        controlEnemy_ = false;
+        
     }   
 
     //No controlEnemy case
@@ -62,7 +62,6 @@ bool Game::move(int targetNode){
             currentP = &p2_;
         }
     }
-    
 
     if(!graph_.hasEdge(currentP->getNodeIndex(), targetNode)){
         return false; //Wall
@@ -107,6 +106,7 @@ bool Game::move(int targetNode){
         cell.powerUp = PowerUpType::NONE;
     }
 
+    controlEnemy_ = false;
 
     //Verifies if player has DOUBLE_PLAY. If he does, the current player doesn't change.
     if(!doublePlay_){

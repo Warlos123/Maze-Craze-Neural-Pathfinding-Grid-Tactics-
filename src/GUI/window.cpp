@@ -5,6 +5,7 @@
 #include "Multiplayer/Multiplayer.hpp"
 #include "GameScreen/GameScreen.hpp"
 #include "GameState.hpp"
+#include "VictoryScreen/VictoryScreen.hpp"
 
 
 class GUI{
@@ -123,6 +124,10 @@ class GUI{
             }
             else if(state == GameState::PLAYING){
                 state = runGame(window, swSprite, mousePos, clicked, clickPos, evPtr, ctx);
+            }
+
+            else if(state == GameState::VICTORY){
+                state = runVictory(window, swSprite, mousePos, clicked, clickPos, evPtr, ctx);
             }
 
             window.display();

@@ -17,6 +17,15 @@ namespace Constants{
     inline sf::Texture backGround{"./Resource/MainScreen.jpg"};
     inline sf::Texture subWindow{"./Resource/blurredMainScreen.jpg"};
     
+    inline sf::Texture soldierTex{"./Resource/Soldier.png"};
+    inline sf::Texture minotaurTex{"./Resource/Minotaur.png"};
+    inline sf::Texture chestTex{"./Resource/Chest.png"};
+    inline sf::Texture portalTex{"./Resource/Portal.png"};
+    inline sf::Texture controllerTex{"./Resource/Controller.png"};
+    inline sf::Texture bootsTex{"./Resource/Boots.png"};
+    inline sf::Texture numberTwoTex{"./Resource/NumberTwo.png"};
+    inline sf::Texture repeatTex{"./Resource/Repeat.png"};
+    
 }
     
 

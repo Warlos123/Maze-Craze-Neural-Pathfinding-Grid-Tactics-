@@ -14,7 +14,7 @@ namespace{
     constexpr float GRID_Y      = 150.f;
     constexpr float GRID_W      = CELL_SIZE * COLS; //1000
     constexpr float GRID_H      = CELL_SIZE * ROWS; //500
-    constexpr float WALL_THICK  = 3.f;
+    constexpr float WALL_THICK  = 5.f;
 
     inline sf::Vector2f cellTopLeft(int nodeIndex){
         int row = nodeIndex / COLS;
@@ -36,23 +36,13 @@ namespace{
         return row * COLS + col;
     }
 
-    sf::Color powerUpColor(PowerUpType t){
+    sf::Texture* powerUpTexture(PowerUpType t){
         switch(t){
-            case PowerUpType::JUMP_WALL:      return sf::Color(80, 150, 240); //blue
-            case PowerUpType::DOUBLE_PLAY:    return sf::Color(80, 200, 100); //green
-            case PowerUpType::CONTROL_ENEMY:  return sf::Color(220, 80, 80);  //red
-            case PowerUpType::CHANGE_LOCATION:return sf::Color(170, 90, 200); //purple
-            default: return sf::Color::Transparent;
-        }
-    }
-
-    char powerUpLetter(PowerUpType t){
-        switch(t){
-            case PowerUpType::JUMP_WALL:      return 'J';
-            case PowerUpType::DOUBLE_PLAY:    return 'D';
-            case PowerUpType::CONTROL_ENEMY:  return 'C';
-            case PowerUpType::CHANGE_LOCATION:return 'X';
-            default: return ' ';
+            case PowerUpType::JUMP_WALL:       return &Constants::bootsTex;
+            case PowerUpType::DOUBLE_PLAY:     return &Constants::numberTwoTex;
+            case PowerUpType::CONTROL_ENEMY:   return &Constants::controllerTex;
+            case PowerUpType::CHANGE_LOCATION: return &Constants::repeatTex;
+            default: return nullptr;
         }
     }
 }
@@ -109,9 +99,9 @@ GameState runGame(sf::RenderWindow& window, sf::Sprite& swSprite,
     //---------- Grid render ----------
     //1) cell backgrounds
     sf::RectangleShape cellBg({CELL_SIZE, CELL_SIZE});
-    cellBg.setFillColor(sf::Color(245, 235, 200));
+    cellBg.setFillColor(sf::Color(90, 90, 95));
     cellBg.setOutlineThickness(1.f);
-    cellBg.setOutlineColor(sf::Color(180, 165, 130));
+    cellBg.setOutlineColor(sf::Color(60, 60, 65));
     for(int i = 0; i < ROWS * COLS; i++){
         cellBg.setPosition(cellTopLeft(i));
         window.draw(cellBg);
@@ -119,7 +109,7 @@ GameState runGame(sf::RenderWindow& window, sf::Sprite& swSprite,
 
     //2) walls: for each cell, look RIGHT and DOWN neighbors; if NO edge, draw wall.
     sf::RectangleShape wall;
-    wall.setFillColor(sf::Color::Black);
+    wall.setFillColor(sf::Color(30, 30, 35));
     for(int row = 0; row < ROWS; row++){
         for(int col = 0; col < COLS; col++){
             int i = row * COLS + col;
@@ -154,76 +144,80 @@ GameState runGame(sf::RenderWindow& window, sf::Sprite& swSprite,
     border.setOutlineColor(sf::Color::Black);
     window.draw(border);
 
-    //4) power-ups: circle + letter
+    //4) power-ups: sprite
     for(int i = 0; i < ROWS * COLS; i++){
         Cell& c = game->getGraph().getCell(i);
         if(c.powerUp == PowerUpType::NONE) continue;
-        sf::Vector2f center = cellCenter(i);
-        sf::CircleShape circ(CELL_SIZE * 0.30f);
-        circ.setOrigin({circ.getRadius(), circ.getRadius()});
-        circ.setPosition(center);
-        circ.setFillColor(powerUpColor(c.powerUp));
-        window.draw(circ);
 
-        std::string letter(1, powerUpLetter(c.powerUp));
-        Text t{Constants::font, letter, 18, {0.f, 0.f}, sf::Color::White};
-        t.centerOn(center);
-        t.draw(window);
+        sf::Texture* tex = powerUpTexture(c.powerUp);
+        if(!tex) continue;
+
+        sf::Vector2f center = cellCenter(i);
+        sf::Sprite sprite(*tex);
+        sf::Vector2u size = tex->getSize();
+
+        float scale = (CELL_SIZE * 0.80f) / static_cast<float>(std::max(size.x, size.y));
+        sprite.setScale({scale, scale});
+        sprite.setOrigin({size.x / 2.f, size.y / 2.f});
+        sprite.setPosition(center);
+        window.draw(sprite);
     }
 
-    //5) portals: yellow diamond
+    //5) portals: sprite
     for(int i = 0; i < ROWS * COLS; i++){
         Cell& c = game->getGraph().getCell(i);
         if(!c.isPortal) continue;
+
         sf::Vector2f center = cellCenter(i);
-        sf::ConvexShape diamond;
-        diamond.setPointCount(4);
-        float r = CELL_SIZE * 0.30f;
-        diamond.setPoint(0, {center.x, center.y - r});
-        diamond.setPoint(1, {center.x + r, center.y});
-        diamond.setPoint(2, {center.x, center.y + r});
-        diamond.setPoint(3, {center.x - r, center.y});
-        diamond.setFillColor(sf::Color(240, 220, 60));
-        diamond.setOutlineThickness(2.f);
-        diamond.setOutlineColor(sf::Color::Black);
-        window.draw(diamond);
+        sf::Sprite sprite(Constants::portalTex);
+        sf::Vector2u size = Constants::portalTex.getSize();
+
+        float scale = (CELL_SIZE * 0.85f) / static_cast<float>(std::max(size.x, size.y));
+        sprite.setScale({scale, scale});
+        sprite.setOrigin({size.x / 2.f, size.y / 2.f});
+        sprite.setPosition(center);
+        window.draw(sprite);
     }
 
-    //6) treasure: gold disc with "T"
+    //6) treasure: Chest
     {
-        sf::Vector2f center = cellCenter(game->getTreasureNode());
-        sf::CircleShape tr(CELL_SIZE * 0.35f);
-        tr.setOrigin({tr.getRadius(), tr.getRadius()});
-        tr.setPosition(center);
-        tr.setFillColor(sf::Color(255, 200, 50));
-        tr.setOutlineThickness(2.f);
-        tr.setOutlineColor(sf::Color(120, 80, 0));
-        window.draw(tr);
+        sf::Vector2f Chest = cellCenter(game->getTreasureNode());
+        sf::Sprite chestSprite(Constants::chestTex);
+        sf::Vector2u chestSize = Constants::chestTex.getSize();
 
-        Text label{Constants::font, "T", 20, {0.f, 0.f}, sf::Color::Black};
-        label.centerOn(center);
-        label.draw(window);
+        float chestScale = (CELL_SIZE * 0.90f) / static_cast<float>(std::max(chestSize.x, chestSize.y));
+        chestSprite.setScale({chestScale, chestScale});
+
+        chestSprite.setOrigin({chestSize.x / 2.f, chestSize.y / 2.f});
+        chestSprite.setPosition(Chest);
+        window.draw(chestSprite);
     }
 
     //7) players
     {
+        //P1 - Soldier
         sf::Vector2f p1c = cellCenter(game->getP1().getNodeIndex());
-        sf::CircleShape p1d(CELL_SIZE * 0.32f);
-        p1d.setOrigin({p1d.getRadius(), p1d.getRadius()});
-        p1d.setPosition(p1c);
-        p1d.setFillColor(sf::Color(50, 100, 220));
-        p1d.setOutlineThickness(2.f);
-        p1d.setOutlineColor(sf::Color::White);
-        window.draw(p1d);
+        sf::Sprite p1Sprite(Constants::soldierTex);
+        sf::Vector2u p1Size = Constants::soldierTex.getSize();
 
+        float p1Scale = (CELL_SIZE * 1.f) / static_cast<float>(std::max(p1Size.x, p1Size.y));
+        p1Sprite.setScale({p1Scale, p1Scale});
+
+        p1Sprite.setOrigin({p1Size.x / 2.f, p1Size.y / 2.f});
+        p1Sprite.setPosition(p1c);
+        window.draw(p1Sprite);
+
+        //P2 - Minotaur
         sf::Vector2f p2c = cellCenter(game->getP2().getNodeIndex());
-        sf::CircleShape p2d(CELL_SIZE * 0.32f);
-        p2d.setOrigin({p2d.getRadius(), p2d.getRadius()});
-        p2d.setPosition(p2c);
-        p2d.setFillColor(sf::Color(220, 60, 60));
-        p2d.setOutlineThickness(2.f);
-        p2d.setOutlineColor(sf::Color::White);
-        window.draw(p2d);
+        sf::Sprite p2Sprite(Constants::minotaurTex);
+        sf::Vector2u p2Size = Constants::minotaurTex.getSize();
+
+        float p2Scale = (CELL_SIZE * 0.85f) / static_cast<float>(std::max(p2Size.x, p2Size.y));
+        p2Sprite.setScale({p2Scale, p2Scale});
+
+        p2Sprite.setOrigin({p2Size.x / 2.f, p2Size.y / 2.f});
+        p2Sprite.setPosition(p2c);
+        window.draw(p2Sprite);
     }
 
     //---------- UI overlays ----------
@@ -256,10 +250,25 @@ GameState runGame(sf::RenderWindow& window, sf::Sprite& swSprite,
                 }
 
                 //Victory check after any successful action
-                if(game->checkVictory(&game->getP1()) || game->checkVictory(&game->getP2())){
-                    //TODO: victory screen. For now just go back.
+                if(game->checkVictory(&game->getP1())){
+                    if(ctx.p1Name.empty()){
+                        ctx.winnerName = "P1";
+                    }
+                    else{
+                        ctx.winnerName = ctx.p1Name;
+                    }
                     initialized = false;
-                    return GameState::MAINSCREEN;
+                    return GameState::VICTORY;
+                }
+                if(game->checkVictory(&game->getP2())){
+                    if(ctx.p2Name.empty()){
+                        ctx.winnerName = "P2";
+                    }
+                    else{
+                        ctx.winnerName = ctx.p2Name;
+                    }
+                    initialized = false;
+                    return GameState::VICTORY;
                 }
             }
         }

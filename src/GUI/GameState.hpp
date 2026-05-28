@@ -8,7 +8,8 @@ enum class GameState{
     ALGO_SELECT,
     P1vsAI,
     P1vsP2,
-    PLAYING
+    PLAYING,
+    VICTORY
 
 };
 
@@ -24,4 +25,5 @@ struct GameContext{
     Algorithm algo = Algorithm::DFS;
     std::string p1Name;
     std::string p2Name; //empty in PvAI
+    std::string winnerName;
 };
