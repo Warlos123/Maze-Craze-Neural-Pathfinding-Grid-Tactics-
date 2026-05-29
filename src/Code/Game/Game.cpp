@@ -48,7 +48,6 @@ bool Game::move(int targetNode){
         else{
             currentP = &p1_;
         }
-
         
     }   
 

@@ -3,6 +3,7 @@
 #include "../Factories/Text.hpp"
 #include "../../Code/Game/Game.hpp"
 #include "../../Code/Constants.hpp"
+#include "../../Code/AI/AI.hpp"
 #include <memory>
 #include <string>
 
@@ -54,12 +55,15 @@ GameState runGame(sf::RenderWindow& window, sf::Sprite& swSprite,
 
     //Game lifecycle: built once on entry, reset on exit.
     static std::unique_ptr<Game> game;
+    static std::unique_ptr<Path> aiPath;
+    static AI ai;
     static bool initialized = false;
     static bool jumpMode = false; //when true, next cell click triggers useJumpWall
 
     if(!initialized){
         game = std::make_unique<Game>();
         game->init(ctx.algo);
+        aiPath = std::make_unique<Path>(game->getGraph());
         initialized = true;
         jumpMode = false;
     }
@@ -271,6 +275,20 @@ GameState runGame(sf::RenderWindow& window, sf::Sprite& swSprite,
                     return GameState::VICTORY;
                 }
             }
+        }
+    }
+
+    if(ctx.mode == GameMode::PvAI){
+        ai.takeTurn(*game, *aiPath);
+
+        if(game->checkVictory(&game->getP2())){
+            if(ctx.p2Name.empty()){
+                ctx.winnerName = "AI";
+            } else {
+                ctx.winnerName = ctx.p2Name;
+            }
+            initialized = false;
+            return GameState::VICTORY;
         }
     }
 
